@@ -1,0 +1,42 @@
+class Goblin(Actor):
+    """Representa al enemigo Goblin"""
+    def __init__(self):
+        """Crea a un goblin"""
+        Actor.__init__(self)
+        self.tira_monedas = randint(0,1)
+    def dibujar(self):
+        """Devuelve el caracter que representa al goblin."""
+        return 'g'
+class Orco(Actor):
+    """Representa al enemigo Orco"""
+    def __init__(self):
+        """Crea a un orco"""
+        Actor.__init__(self)
+        self.tira_monedas = randint(0,1)
+    def dibujar(self):
+        """Devuelve el caracter que presenta al orco"""
+        return 'o'
+class Moneda(Actor):
+    def __init__(self):
+        """Crea una moneda"""
+        Actor.__init__(self)
+    def dibujar(self):
+        """Devuelve el caracter que representa una moneda"""
+        return '$'
+class Pared(Actor):
+    """Representa a las paredes del juego"""
+    def __init__(self):
+        """Crea a la pared"""
+        Actor.__init__(self)
+    def dibujar(self):
+        """Devuelve el caracter que representa una pared"""
+        return "#"
+class Salida(self):
+    """Representa a la salida del calabozo"""
+    def __init__(self):
+        """Crea a la salida"""
+        Actor.__init__(self)
+    def dibujar(self):
+        """Devuelve el caracter que representa la salida"""
+        return "<"
+# No se si esto este bien, capaz solo hay que hacer una clase base enemigo? o capaz con una sola para goblin y orco alcanza, porque se comportan igual
