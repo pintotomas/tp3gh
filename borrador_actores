@@ -40,3 +40,4 @@ class Salida(self):
         """Devuelve el caracter que representa la salida"""
         return "<"
 # No se si esto este bien, capaz solo hay que hacer una clase base enemigo? o capaz con una sola para goblin y orco alcanza, porque se comportan igual
+# Para Orco, Moneda y Goblin, si interactua el heroe tienen que desaparecer, eso tambien creo que significa que habria que hacer una clase base ENemigo con esa funcion
