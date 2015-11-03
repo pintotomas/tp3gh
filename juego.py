@@ -26,7 +26,9 @@ class Juego(object):
         #### Modificar este codigo para que cargue el mapa dinamicamente
         #### a partir de `filas`
         ####
-        mapa = Mapa(10, 10)
+        ancho = len(filas[-1])
+        alto = len(filas)
+        mapa = Mapa(ancho, alto)
         heroe = actores.Heroe()
         mapa.agregar_actor(heroe, 5, 5)
         return mapa, heroe
