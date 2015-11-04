@@ -150,5 +150,4 @@ except IOError:
 except errores.PersonajeInexistenteError:
     print "El mapa provisto incluye personajes que no son del juego!."
 except errores.MapaIncorrectoError:
-    print "Debe haber aunque sea un caracter en la primer linea del mapa,"
-    print "y debe estar alineado a la izquierda en la primer linea del archivo."
+    print "Formato del mapa incorrecto, debe ser de tamaño mxn"
