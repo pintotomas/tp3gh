@@ -29,44 +29,34 @@ class Juego(object):
         ####
         ancho = len(filas[0])
         alto = len(filas)
-        mapa = Mapa(ancho, alto)
-        actores_dic = {".":"None","@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
+        mapa = Mapa(ancho,alto)
+        actores_dic = {"@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
         x = 0
-        y = 0
-        for fila in filas:
-            x+= 1
-            y = 0
-            
-            for caracter in fila:
-                y+=1
+        y = -1
+        for fila in filas:  
+            x = 0
+            y+= 1
+            for caracter in fila:                
                 if caracter in actores_dic:
-                    if actores_dic[caracter] == "None":
-                        a = raw_input("Hasta aca todo bien, se agrego vacio")
-                        celda_vacia = actores.Vacio()
-                        mapa.agregar_actor(celda_vacia,x,y)
+                    
                     if actores_dic[caracter] == "Heroe":
-                        a = raw_input("Hasta aca todo bien, se agrego heroe")
                         heroe = actores.Heroe()
                         mapa.agregar_actor(heroe,x,y)
                         
                     if actores_dic[caracter] == "Pared":
-                        a = raw_input("Hasta aca todo bien, se agrego pared")
                         pared = actores.Pared()
                         mapa.agregar_actor(pared,x,y)
                     if actores_dic[caracter] == "Goblin":
-                        a = raw_input("Hasta aca todo bien, se agrego goblin")
                         goblin = actores.Goblin()
                         
                         mapa.agregar_actor(goblin,x,y)
                     if actores_dic[caracter] == "Orco":
                         orco = actores.Orco()
-                        a = raw_input("Hasta aca todo bien, se agrego orc")
                         mapa.agregar_actor(orco,x,y)
                     if actores_dic[caracter] == "Salida":
-                        a = raw_input("Hasta aca todo bien, se agrego salida")
                         salida = actores.Salida()
                         mapa.agregar_actor(salida,x,y)
-                
+                x+=1
         
         
         return mapa, heroe
@@ -132,7 +122,7 @@ class Juego(object):
 
 
 # Mapa por defecto:
-nombre_mapa = 'nivel1'
+nombre_mapa = 'nivel2'
 if len(sys.argv) > 1:
     nombre_mapa = sys.argv[1]
 
