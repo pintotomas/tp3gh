@@ -138,7 +138,7 @@ class Juego(object):
 
 
 # Mapa por defecto:
-nombre_mapa = 'niv3el1'
+nombre_mapa = 'nivel1'
 if len(sys.argv) > 1:
     nombre_mapa = sys.argv[1]
 try:
