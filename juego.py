@@ -1,12 +1,9 @@
 import curses
 import actores
-
+import errores
 from mapa import Mapa
 import sys
-class NoHayHeroeError(Exception):
-    pass
-class NoHaySalidaError(Exception):
-    pass
+
 class Juego(object):
     def __init__(self, nombre_mapa):
         """Carga el mapa del juego a partir del archivo mapas/<nombre_mapa>.map."""
@@ -31,38 +28,50 @@ class Juego(object):
         #### Modificar este codigo para que cargue el mapa dinamicamente
         #### a partir de `filas`
         ####
-        ANCHO = len(filas[0])
-        ALTO = len(filas)
+        ANCHO = len(filas[0]) 
+        if ANCHO == 0: raise errores.MapaIncorrectoError\
+		("Primer linea del archivo vacia")
+        ALTO = len(filas) 
         mapa = Mapa(ANCHO,ALTO)
         x = 0
         y = -1
         heroe = None
         salida = None
         for fila in filas:
-           
+            if len(fila) != ANCHO: raise errores.MapaIncorrectoError\
+           ("la linea",fila,\
+           "no contiene la misma cantidad de caracteres que la primer linea del archivo")
             x = 0
             y+= 1
             for caracter in fila:
                 if caracter == "@":
-                    heroe = actores.Heroe()
-                    mapa.agregar_actor(heroe,x,y)
-                if caracter == "#":
-                    pared = actores.Pared()
-                    mapa.agregar_actor(pared,x,y)
-                if caracter == "g":
-                    goblin = actores.Goblin()
-                    mapa.agregar_actor(goblin,x,y)
-                if caracter == "o":
-                    orco = actores.Orco()
-                    mapa.agregar_actor(orco,x,y)
-                if caracter == "<":
-                    salida = actores.Salida()
-                    mapa.agregar_actor(salida,x,y)
-                x+=1
+                   heroe = actores.Heroe()
+                   mapa.agregar_actor(heroe,x,y)
+                        
+                elif caracter == "#":
+                   pared = actores.Pared()
+                   mapa.agregar_actor(pared,x,y)
+                elif caracter == "g":
+                   goblin = actores.Goblin()
+                   mapa.agregar_actor(goblin,x,y)
+                        
+                elif caracter == "o":
+                   orco = actores.Orco()
+                   mapa.agregar_actor(orco,x,y)
+                        
+                elif caracter == "<":
+                   salida = actores.Salida()
+                   mapa.agregar_actor(salida,x,y)
+                elif caracter != ".":
+                   raise errores.PersonajeInexistenteError\
+                   ("El caracter",caracter,"no hace referencia a ningun personaje en el juego")
+		   
+		   
+            	x+=1
         if heroe == None:
-            raise NoHayHeroeError("El mapa provisto no contiene ningun heroe para ser controlado por el usuario")
+            raise errores.NoHayHeroeError("El mapa provisto no contiene ningun heroe para ser controlado por el usuario")
         if salida == None:
-            raise NoHaySalidaError("El mapa provisto no provee una salida para el calabozo!")
+            raise errores.NoHaySalidaError("El mapa provisto no provee una salida para el calabozo!")
         return mapa, heroe
 
     def turno(self, evento):
@@ -132,9 +141,14 @@ if len(sys.argv) > 1:
     nombre_mapa = sys.argv[1]
 try:
     Juego(nombre_mapa).main()
-except NoHaySalidaError:
-    print "El calabozo debe incluir una salida, representada por '<'"
-except NoHayHeroeError:
-    print "Debe haber un heroe representado por '@' para que juege el usuario"
+except errores.NoHaySalidaError:
+    print "El calabozo debe incluir una salida, representada por '<'."
+except errores.NoHayHeroeError:
+    print "Debe haber un heroe representado por '@' para que juege el usuario."
 except IOError:
-    print "Mapa o directorio inexistentes, o no se tienen los permisos necesarios"
+    print "Archivo del mapa o directorio inexistentes, o no se tienen los permisos necesarios."
+except errores.PersonajeInexistenteError:
+    print "El mapa provisto incluye personajes que no son del juego!."
+except errores.MapaIncorrectoError:
+    print "Debe haber aunque sea un caracter en la primer linea del mapa,"
+    print "y debe estar alineado a la izquierda en la primer linea del archivo."
