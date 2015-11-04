@@ -143,6 +143,11 @@ class Salida(Actor):
     def dibujar(self):
         """Devuelve el caracter que representa la salida"""
         return "<"
-###
-### Agregar las clases Enemigo (g = goblin, o = orco), Moneda ($), Pared (#) y Salida (<)
-###
+    def interactuar_con_heroe(self,juego):
+	mapa = juego.mapa
+	juego.heroe.vivo = False
+	mapa.eliminar_actores_muertos()
+	juego.msg("Felicidades!, has salido del calabozo")
+	juego.terminar()
+### Habria que ver si se puede simplificar la parte en la que se asigna mapa en interactuar_con_heroe
+### Para no tener que asignarlo siempre en interactuar_con_heroe
