@@ -127,13 +127,12 @@ class Moneda(Actor):
     def dibujar(self):
         """Devuelve el caracter que representa una moneda"""
         return '$'
-	def interactuar_con_heroe(self,juego):
-		mapa = juego.mapa
-		self.vivo = False
-		mapa.eliminar_actores_muertos()
-		juego.heroe.monedas+=1
-		juego.msg("has obtenido una moneda, total de monedas:{}".format(juego.heroe.monedas))
-		##Ver por que no pasa nada con esto##
+    def interactuar_con_heroe(self,juego):
+	mapa = juego.mapa
+	self.vivo = False
+	mapa.eliminar_actores_muertos()
+	juego.heroe.monedas+=1
+	juego.msg("has obtenido una moneda, total de monedas:{}".format(juego.heroe.monedas))
 class Pared(Actor):
     """Representa a las paredes del juego"""
     def dibujar(self):
@@ -144,8 +143,6 @@ class Salida(Actor):
     def dibujar(self):
         """Devuelve el caracter que representa la salida"""
         return "<"
-    #Agregar el metodo para que cuando el actor interactue con la salida, desaparezca el actor
-    #Para hacerlo self.vivo de actor = False, limpiar actores muertos y mostrar el msg por consola y listo
 ###
 ### Agregar las clases Enemigo (g = goblin, o = orco), Moneda ($), Pared (#) y Salida (<)
 ###
