@@ -34,7 +34,6 @@ class Juego(object):
         ANCHO = len(filas[0])
         ALTO = len(filas)
         mapa = Mapa(ANCHO,ALTO)
-        actores_dic = {"@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
         x = 0
         y = -1
         heroe = None
@@ -44,27 +43,21 @@ class Juego(object):
             x = 0
             y+= 1
             for caracter in fila:
-                
-                if caracter in actores_dic:
-                        
-                    if actores_dic[caracter] == "Heroe":
-                        heroe = actores.Heroe()
-                        mapa.agregar_actor(heroe,x,y)
-                        
-                    if actores_dic[caracter] == "Pared":
-                        pared = actores.Pared()
-                        mapa.agregar_actor(pared,x,y)
-                    if actores_dic[caracter] == "Goblin":
-                        goblin = actores.Goblin()
-                        mapa.agregar_actor(goblin,x,y)
-                        
-                    if actores_dic[caracter] == "Orco":
-                        orco = actores.Orco()
-                        mapa.agregar_actor(orco,x,y)
-                        
-                    if actores_dic[caracter] == "Salida":
-                        salida = actores.Salida()
-                        mapa.agregar_actor(salida,x,y)
+                if caracter == "@":
+                    heroe = actores.Heroe()
+                    mapa.agregar_actor(heroe,x,y)
+                if caracter == "#":
+                    pared = actores.Pared()
+                    mapa.agregar_actor(pared,x,y)
+                if caracter == "g":
+                    goblin = actores.Goblin()
+                    mapa.agregar_actor(goblin,x,y)
+                if caracter == "o":
+                    orco = actores.Orco()
+                    mapa.agregar_actor(orco,x,y)
+                if caracter == "<":
+                    salida = actores.Salida()
+                    mapa.agregar_actor(salida,x,y)
                 x+=1
         if heroe == None:
             raise NoHayHeroeError("El mapa provisto no contiene ningun heroe para ser controlado por el usuario")
