@@ -3,10 +3,14 @@ import actores
 
 from mapa import Mapa
 import sys
-
+class NoHayHeroeError(Exception):
+    pass
+class NoHaySalidaError(Exception):
+    pass
 class Juego(object):
     def __init__(self, nombre_mapa):
         """Carga el mapa del juego a partir del archivo mapas/<nombre_mapa>.map."""
+        
         with open("mapas/{}.map".format(nombre_mapa)) as f:
             filas = [ linea.strip() for linea in f ]
         mapa, heroe = self.crear_mapa(filas)
@@ -15,7 +19,7 @@ class Juego(object):
         self.juego_terminado = False
         # El historial de mensajes es simplemente una lista de strings.
         self.mensajes = []
-
+        
     def crear_mapa(self, filas):
         """Crea el Mapa a partir de la definicion provista por parametro (`filas`),
         y devuelve una tupla con el mapa y el actor que representa al heroe del juego.
@@ -27,18 +31,26 @@ class Juego(object):
         #### Modificar este codigo para que cargue el mapa dinamicamente
         #### a partir de `filas`
         ####
-        ancho = len(filas[0])
-        alto = len(filas)
-        mapa = Mapa(ancho,alto)
-        actores_dic = {"@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
+        ANCHO = len(filas[0])
+        ALTO = len(filas)
+        mapa = Mapa(ANCHO,ALTO)
+        actores_dic = {"$":"Moneda","@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
         x = 0
         y = -1
-        for fila in filas:  
+        heroe = None
+        salida = None
+        for fila in filas:
+           
             x = 0
             y+= 1
-            for caracter in fila:                
+            for caracter in fila:
+                
                 if caracter in actores_dic:
                     
+                    if actores_dic[caracter] == "Moneda":
+                        moneda = actores.Moneda()
+                        mapa.agregar_actor(moneda,x,y)
+                        
                     if actores_dic[caracter] == "Heroe":
                         heroe = actores.Heroe()
                         mapa.agregar_actor(heroe,x,y)
@@ -48,17 +60,20 @@ class Juego(object):
                         mapa.agregar_actor(pared,x,y)
                     if actores_dic[caracter] == "Goblin":
                         goblin = actores.Goblin()
-                        
                         mapa.agregar_actor(goblin,x,y)
+                        
                     if actores_dic[caracter] == "Orco":
                         orco = actores.Orco()
                         mapa.agregar_actor(orco,x,y)
+                        
                     if actores_dic[caracter] == "Salida":
                         salida = actores.Salida()
                         mapa.agregar_actor(salida,x,y)
                 x+=1
-        
-        
+        if heroe == None:
+            raise NoHayHeroeError("El mapa provisto no contiene ningun heroe para ser controlado por el usuario")
+        if salida == None:
+            raise NoHaySalidaError("El mapa provisto no provee una salida para el calabozo!")
         return mapa, heroe
 
     def turno(self, evento):
@@ -116,14 +131,21 @@ class Juego(object):
                 if evento == ord("q"):
                     break
                 self.turno(evento)
+       
         finally:
             # devolver el estado de la consola (por ejemplo la visibilidad del cursor)
             curses.endwin()
 
 
 # Mapa por defecto:
-nombre_mapa = 'nivel2'
+nombre_mapa = 'niv3el1'
 if len(sys.argv) > 1:
     nombre_mapa = sys.argv[1]
-
-Juego(nombre_mapa).main()
+try:
+    Juego(nombre_mapa).main()
+except NoHaySalidaError:
+    print "El calabozo debe incluir una salida, representada por '<'"
+except NoHayHeroeError:
+    print "Debe haber un heroe representado por '@' para que juege el usuario"
+except IOError:
+    print "Mapa o directorio inexistentes, o no se tienen los permisos necesarios"
