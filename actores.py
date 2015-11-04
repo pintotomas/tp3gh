@@ -95,21 +95,21 @@ class Heroe(Actor):
             return self.accion(dx, dy, juego)
         return False
 class Enemigo(Actor):
-	"""Representa a los enemigos del juego"""
-	def __init__(self):
-		"Crea a un enemigo"
-		Actor.__init__(self)
-		self.tiene_monedas = random.randint(0,1)
+    """Representa a los enemigos del juego"""
+    def __init__(self):
+	    "Crea a un enemigo"
+	    Actor.__init__(self)
+	    self.tiene_monedas = random.randint(0,1)
 	
-	def interactuar_con_heroe(self,juego):
-		mapa = juego.mapa
-		self.vivo = False
-		mapa.eliminar_actores_muertos()
-		juego.msg("has matado a un enemigo")
-		if self.tiene_monedas == 1:
-			mapa = juego.mapa
-			moneda = Moneda()
-			mapa.agregar_actor(moneda,self.x,self.y)
+    def interactuar_con_heroe(self,juego):
+	mapa = juego.mapa
+	self.vivo = False
+	mapa.eliminar_actores_muertos()
+	juego.msg("has matado a un enemigo")
+	if self.tiene_monedas == 1:
+	    mapa = juego.mapa
+	    moneda = Moneda()
+	    mapa.agregar_actor(moneda,self.x,self.y)
     		
 class Goblin(Enemigo):
     """Representa al enemigo Goblin"""
@@ -147,7 +147,9 @@ class Salida(Actor):
 	mapa = juego.mapa
 	juego.heroe.vivo = False
 	mapa.eliminar_actores_muertos()
-	juego.msg("Felicidades!, has salido del calabozo")
+	juego.msg("Felicidades!, has salido del calabozo!")
+	juego.msg("Presiona Q para volver a la consola")
 	juego.terminar()
-### Habria que ver si se puede simplificar la parte en la que se asigna mapa en interactuar_con_heroe
-### Para no tener que asignarlo siempre en interactuar_con_heroe
+###
+### Agregar las clases Enemigo (g = goblin, o = orco), Moneda ($), Pared (#) y Salida (<)
+###
