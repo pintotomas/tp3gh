@@ -34,7 +34,7 @@ class Juego(object):
         ANCHO = len(filas[0])
         ALTO = len(filas)
         mapa = Mapa(ANCHO,ALTO)
-        actores_dic = {"$":"Moneda","@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
+        actores_dic = {"@":"Heroe","#":"Pared","g":"Goblin","o":"Orco","<":"Salida"}
         x = 0
         y = -1
         heroe = None
@@ -46,10 +46,6 @@ class Juego(object):
             for caracter in fila:
                 
                 if caracter in actores_dic:
-                    
-                    if actores_dic[caracter] == "Moneda":
-                        moneda = actores.Moneda()
-                        mapa.agregar_actor(moneda,x,y)
                         
                     if actores_dic[caracter] == "Heroe":
                         heroe = actores.Heroe()
