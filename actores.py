@@ -144,6 +144,8 @@ class Salida(Actor):
     def dibujar(self):
         """Devuelve el caracter que representa la salida"""
         return "<"
+    #Agregar el metodo para que cuando el actor interactue con la salida, desaparezca el actor
+    #Para hacerlo self.vivo de actor = False, limpiar actores muertos y mostrar el msg por consola y listo
 ###
 ### Agregar las clases Enemigo (g = goblin, o = orco), Moneda ($), Pared (#) y Salida (<)
 ###
