@@ -94,20 +94,25 @@ class Heroe(Actor):
             dx, dy = Heroe.direcciones[evento]
             return self.accion(dx, dy, juego)
         return False
+
 class Enemigo(Actor):
     """Representa a los enemigos del juego"""
     def __init__(self):
-	    "Crea a un enemigo"
-	    Actor.__init__(self)
-	    self.tiene_monedas = random.randint(0,1)
+	"Crea a un enemigo"
+	Actor.__init__(self)
+	self.tiene_monedas = random.randint(0,1)
 	
     def interactuar_con_heroe(self,juego):
 	mapa = juego.mapa
+	enemigo = ""
+	if isinstance(self,Orco):
+            enemigo = "Orco"
+        if isinstance(self,Goblin):
+            enemigo = "Goblin"
 	self.vivo = False
 	mapa.eliminar_actores_muertos()
-	juego.msg("has matado a un enemigo")
+	juego.msg("Has matado a un {}".format(enemigo))
 	if self.tiene_monedas == 1:
-	    mapa = juego.mapa
 	    moneda = Moneda()
 	    mapa.agregar_actor(moneda,self.x,self.y)
     		
@@ -132,7 +137,7 @@ class Moneda(Actor):
 	self.vivo = False
 	mapa.eliminar_actores_muertos()
 	juego.heroe.monedas+=1
-	juego.msg("has obtenido una moneda, total de monedas:{}".format(juego.heroe.monedas))
+	juego.msg("Has obtenido una moneda, total de monedas obtenidas:{}".format(juego.heroe.monedas))
 class Pared(Actor):
     """Representa a las paredes del juego"""
     def dibujar(self):
@@ -148,7 +153,7 @@ class Salida(Actor):
 	juego.heroe.vivo = False
 	mapa.eliminar_actores_muertos()
 	juego.msg("Felicidades!, has salido del calabozo!")
-	juego.msg("Presiona Q para volver a la consola")
+	juego.msg("El juego ha terminado, presiona Q para volver a la consola")
 	juego.terminar()
 ###
 ### Agregar las clases Enemigo (g = goblin, o = orco), Moneda ($), Pared (#) y Salida (<)
