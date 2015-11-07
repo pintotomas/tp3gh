@@ -38,8 +38,6 @@ class Juego(object):
         salida = actores.Salida()
         mapa.agregar_actor(salida,x,y)
 
-    
-        
     def crear_mapa(self, filas):
         """Crea el Mapa a partir de la definicion provista por parametro (`filas`),
         y devuelve una tupla con el mapa y el actor que representa al heroe del juego.
