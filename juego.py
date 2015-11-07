@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 import curses
 import actores
 import errores
