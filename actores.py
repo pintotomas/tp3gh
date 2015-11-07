@@ -1,5 +1,6 @@
 #coding=utf-8
 import curses
+
 import random
 class Actor(object):
     """Clase base para todas las entidades capaces de ocupar una posicion en el mapa."""
@@ -100,33 +101,30 @@ class Enemigo(Actor):
 	"Crea a un enemigo"
 	Actor.__init__(self)
 	self.tiene_monedas = random.randint(0,1)
+	self.nombre = '?'
 	
     def interactuar_con_heroe(self,juego):
-    	"""Juego es una instancia de juego, una vez que el heroe intenta ocupar la celda
-    	de este actor, se elimina del mapa y se muestra por pantalla un mensaje de lo ocurrido.
-    	Si se tiene como atributo monedas = 1, se crea una nueva instancia que ocupa la celda
-    	de este actor ya eliminado
-    	"""
 	mapa = juego.mapa
-	enemigo = ""
-	if isinstance(self,Orco):
-            enemigo = "Orco"
-        if isinstance(self,Goblin):
-            enemigo = "Goblin"
 	self.vivo = False
 	mapa.eliminar_actores_muertos()
-	juego.msg("Has matado a un {}".format(enemigo))
-	if self.tiene_monedas == 1:
+	juego.msg("Has matado a un {}".format(self.nombre))
+	if self.tiene_monedas:
 	    moneda = Moneda()
 	    mapa.agregar_actor(moneda,self.x,self.y)
     		
 class Goblin(Enemigo):
     """Representa al enemigo Goblin"""
+    def __init__(self):
+        Enemigo.__init__(self)
+        self.nombre = "Goblin"
     def dibujar(self):
         """Devuelve el caracter que representa al goblin."""
         return 'g'
 class Orco(Enemigo):
     """Representa al enemigo Orco"""
+    def __init__(self):
+        Enemigo.__init__(self)
+        self.nombre = "Orco"
     		
     def dibujar(self):
         """Devuelve el caracter que presenta al orco"""
@@ -137,11 +135,6 @@ class Moneda(Actor):
         """Devuelve el caracter que representa una moneda"""
         return '$'
     def interactuar_con_heroe(self,juego):
-    	"""Juego es una instancia de juego, una vez que el heroe intenta ocupar 
-    	la celda de este actor, se elimina a este actor del mapa y posteriormente se
-    	modifica el atributo monedas de 'heroe', sumando uno y mostrando un mensaje
-    	por pantalla con la cantidad de monedas que tiene el heroe
-    	"""
 	mapa = juego.mapa
 	self.vivo = False
 	mapa.eliminar_actores_muertos()
@@ -158,15 +151,9 @@ class Salida(Actor):
         """Devuelve el caracter que representa la salida"""
         return "<"
     def interactuar_con_heroe(self,juego):
-    	"""Juego es una instancia de juego, una vez que el heroe quiere interactuar con
-    	este actor, es eliminado del mapa, se muestran mensajes, y se finaliza el juego
-    	"""
 	mapa = juego.mapa
 	juego.heroe.vivo = False
 	mapa.eliminar_actores_muertos()
 	juego.msg("Felicidades!, has salido del calabozo!")
 	juego.msg("El juego ha terminado, presiona Q para volver a la consola")
 	juego.terminar()
-###
-### Agregar las clases Enemigo (g = goblin, o = orco), Moneda ($), Pared (#) y Salida (<)
-###
