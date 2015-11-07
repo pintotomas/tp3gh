@@ -4,5 +4,5 @@ class PersonajeInexistenteError(Exception):
     pass
 class NoHayHeroeError(Exception):
     pass
-class NoHaySalidaError(Exception):
+class DemasiadosHeroesError(Exception):
     pass
