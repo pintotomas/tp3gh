@@ -1,6 +1,5 @@
 #coding=utf-8
 import curses
-
 import random
 class Actor(object):
     """Clase base para todas las entidades capaces de ocupar una posicion en el mapa."""
