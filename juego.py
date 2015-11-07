@@ -38,6 +38,8 @@ class Juego(object):
         salida = actores.Salida()
         mapa.agregar_actor(salida,x,y)
 
+    
+        
     def crear_mapa(self, filas):
         """Crea el Mapa a partir de la definicion provista por parametro (`filas`),
         y devuelve una tupla con el mapa y el actor que representa al heroe del juego.
@@ -51,14 +53,14 @@ class Juego(object):
                          "g":Juego.agregar_goblin,
                          "<":Juego.agregar_salida
                          }
-        ANCHO = len(filas[0]) 
-        if ANCHO == 0: raise errores.MapaIncorrectoError\
-		("Primer linea del archivo vacia")
-        ALTO = len(filas) 
+        ALTO = len(filas)
+        ANCHO = len(filas[0])
+        if ANCHO == 0: raise IndexError
         mapa = Mapa(ANCHO,ALTO)
         x = 0
         y = -1
         heroe = None
+        cantidad_heroes = 0
         for fila in filas:
             if len(fila) != ANCHO: raise errores.MapaIncorrectoError\
            ("la linea",fila,\
@@ -70,6 +72,9 @@ class Juego(object):
                     # Lo necesitamos ya que, debemos definir heroe para poder devolverlo
                     heroe = actores.Heroe()
                     mapa.agregar_actor(heroe,x,y)
+                    cantidad_heroes+=1
+                    if cantidad_heroes > 1:
+                        raise errores.DemasiadosHeroesError("Se esta añadiendo",cantidad_heroes-1,"heroes de mas")
                 elif caracter in dic_funciones:
                     dic_funciones[caracter](self,mapa,x,y)
                 elif caracter != ".":
@@ -148,13 +153,16 @@ if len(sys.argv) > 1:
     nombre_mapa = sys.argv[1]
 try:
     Juego(nombre_mapa).main()
-except errores.NoHaySalidaError:
-    print "El calabozo debe incluir una salida, representada por '<'."
+
 except errores.NoHayHeroeError:
     print "Debe haber un heroe representado por '@' para que juege el usuario."
-except IOError:
-    print "Archivo del mapa o directorio inexistentes, o no se tienen los permisos necesarios."
 except errores.PersonajeInexistenteError:
     print "El mapa provisto incluye personajes que no son del juego!."
 except errores.MapaIncorrectoError:
     print "Formato del mapa incorrecto, debe ser rectangular"
+except errores.DemasiadosHeroesError:
+    print "Se estan añadiendo heroes de mas, solo puede haber uno"
+except IOError:
+    print "Archivo del mapa o directorio inexistentes, o no se tienen los permisos necesarios."
+except IndexError:
+    print "Mapa vacio, o no esta alineado en la izquierda superior del archivo"
