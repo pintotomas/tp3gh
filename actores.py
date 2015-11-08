@@ -98,12 +98,19 @@ class Heroe(Actor):
 class Enemigo(Actor):
     """Representa a los enemigos del juego"""
     def __init__(self):
-	"Crea a un enemigo"
+	"""Inicializa a un enemigo"""
 	Actor.__init__(self)
 	self.tiene_monedas = random.randint(0,1)
 	self.nombre = '?'
 	
     def interactuar_con_heroe(self,juego):
+        """Realiza la accion correspondiente a la interaccion con el heroe (es
+        decir, cuando el heroe intenta moverse a la posicion ocupada por este actor).
+        elimina al enemigo del mapa, muestra un mensaje informativo de esto y si
+        el enemigo tiene en su atributo 'tira_monedas' una referencia al numero
+        '1', se crea una nueva instancia de la moneda y se agrega donde el enemigo
+        fue previamente eliminado
+        """
 	mapa = juego.mapa
 	self.vivo = False
 	mapa.eliminar_actores_muertos()
@@ -135,6 +142,12 @@ class Moneda(Actor):
         """Devuelve el caracter que representa una moneda"""
         return '$'
     def interactuar_con_heroe(self,juego):
+        """Realiza la accion correspondiente a la interaccion con el heroe (es
+        decir, cuando el heroe intenta moverse a la posicion ocupada por este actor).
+        se elimina la moneda del mapa, se modifica el atributo monedas del heroe y
+        se muestra un mensaje por pantalla mostrando la cantidad de monedas que
+        tiene el heroe
+        """
 	mapa = juego.mapa
 	self.vivo = False
 	mapa.eliminar_actores_muertos()
@@ -151,6 +164,11 @@ class Salida(Actor):
         """Devuelve el caracter que representa la salida"""
         return "<"
     def interactuar_con_heroe(self,juego):
+        """Realiza la accion correspondiente a la interaccion con el heroe (es
+        decir, cuando el heroe intenta moverse a la posicion ocupada por este actor).
+        se elimina al heroe del mapa, se muestran mensajes por pantalla y se finaliza
+        el juego
+        """
 	mapa = juego.mapa
 	juego.heroe.vivo = False
 	mapa.eliminar_actores_muertos()
