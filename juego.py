@@ -19,35 +19,36 @@ class Juego(object):
         self.mensajes = []
         
     def agregar_goblin(self,mapa,x,y):
-        "Agrega un goblin al mapa"
+        """Agrega un goblin al mapa"""
         goblin = actores.Goblin()
         mapa.agregar_actor(goblin,x,y)
         
     def agregar_orco(self,mapa,x,y):
-        "Agrega un orco al mapa"
+        """Agrega un orco al mapa"""
         orco = actores.Orco()
         mapa.agregar_actor(orco,x,y)
         
     def agregar_pared(self,mapa,x,y):
-        "Agrega una pared al mapa"
+        """Agrega una pared al mapa"""
         pared = actores.Pared()
         mapa.agregar_actor(pared,x,y)
         
     def agregar_salida(self,mapa,x,y):
-        "Agrega una salida al mapa"
+        """Agrega una salida al mapa"""
         salida = actores.Salida()
         mapa.agregar_actor(salida,x,y)
-
-    
-        
+      
     def crear_mapa(self, filas):
         """Crea el Mapa a partir de la definicion provista por parametro (`filas`),
         y devuelve una tupla con el mapa y el actor que representa al heroe del juego.
-        Si hay mas de un heroe en la definicion del mapa, o bien si no hay ningun
-        heroe, la funcion lanza una excepcion. Se presupone que en el mapa se
-        proporciona una salida para poder finalizar el juego.
         `filas` es una lista de strings, que corresponde con el contenido completo
-        del archivo .map."""
+        del archivo .map.Se presupone que en el mapa se proporciona una salida para
+        poder finalizar el juego, y si se proporciona algun caracter que no corresponde
+        a ningun personaje, se lo reemplaza por una celda vacía automáticamente.
+        Si hay mas de un heroe en la definicion del mapa, o bien si
+        no hay ningun heroe, la funcion lanza una excepcion, si el mapa no tiene
+        el formato correcto(debe ser rectangular), también
+        """
         dic_funciones = {"#":Juego.agregar_pared,
                          "o":Juego.agregar_orco,
                          "g":Juego.agregar_goblin,
@@ -55,7 +56,7 @@ class Juego(object):
                          }
         ALTO = len(filas)
         ANCHO = len(filas[0])
-        if ANCHO == 0: raise IndexError
+        if ANCHO == 0: raise IndexError("Linea vacia")
         mapa = Mapa(ANCHO,ALTO)
         x = 0
         y = -1
@@ -77,9 +78,7 @@ class Juego(object):
                         raise errores.DemasiadosHeroesError("Se esta añadiendo",cantidad_heroes-1,"heroes de mas")
                 elif caracter in dic_funciones:
                     dic_funciones[caracter](self,mapa,x,y)
-                elif caracter != ".":
-                   raise errores.PersonajeInexistenteError\
-                   ("El caracter",caracter,"no hace referencia a ningun personaje en el juego")
+                
             	x+=1
             
         if heroe == None:
@@ -153,11 +152,8 @@ if len(sys.argv) > 1:
     nombre_mapa = sys.argv[1]
 try:
     Juego(nombre_mapa).main()
-
 except errores.NoHayHeroeError:
     print "Debe haber un heroe representado por '@' para que juege el usuario."
-except errores.PersonajeInexistenteError:
-    print "El mapa provisto incluye personajes que no son del juego!."
 except errores.MapaIncorrectoError:
     print "Formato del mapa incorrecto, debe ser rectangular"
 except errores.DemasiadosHeroesError:
