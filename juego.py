@@ -63,9 +63,8 @@ class Juego(object):
         heroe = None
         cantidad_heroes = 0
         for fila in filas:
-            if len(fila) != ANCHO: raise errores.MapaIncorrectoError\
-           ("la linea",fila,\
-           "no contiene la misma cantidad de caracteres que la primer linea del archivo")
+            if len(fila) != ANCHO:
+                raise errores.MapaIncorrectoError("la linea",fila,"no contiene la misma cantidad de caracteres que la primer linea del archivo")
             x = 0
             y+= 1
             for caracter in fila:
